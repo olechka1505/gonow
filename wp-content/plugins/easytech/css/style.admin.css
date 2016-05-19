@@ -1,2 +1,27 @@
-[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none !important}.et-form-separate{height:15px;float:left;width:100%;clear:both}.et_has_error,.et-remove-btn{border-color:#ff0000;color:#ff0000}.no-padding{padding:0 !important}.et_admin_settings{padding:50px 0}.et_admin_settings .tab-content{padding-top:20px}
+/*Colors*/
+/*Mixins*/
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important; }
+
+.et-form-separate {
+  height: 15px;
+  float: left;
+  width: 100%;
+  clear: both; }
+
+.et_has_error, .et-remove-btn {
+  border-color: #ff0000;
+  color: #ff0000; }
+
+.no-padding {
+  padding: 0 !important; }
+
+.et_admin_settings {
+  padding: 50px 0; }
+  .et_admin_settings .tab-content {
+    padding-top: 20px;
+    float: left;
+    width: 100%;
+    min-height: 400px; }
+
 /*# sourceMappingURL=style.admin.css.map */

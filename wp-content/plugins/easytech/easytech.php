@@ -10,47 +10,29 @@ Author URI: https://www.upwork.com/freelancers/_~01c10e7a70568b27d3/
 
 class EasyTech {
 
-    const OPTION_STEPS = 'et_steps';
-    const OPTION_MAIN_PAGE = 'et_main_page';
+    const OPTION_SETTINGS = 'et_settings';
     public function __construct()
     {
         add_action('init', array($this, 'et_bootstrap_init'));
         add_action('admin_enqueue_scripts', array($this, 'et_admin_enqueue_scripts'));
         add_action('admin_menu', array($this, 'et_add_submenus'));
-        add_action('wp_ajax_et_add_save_step_settings', array($this, 'et_add_save_step_settings'));
         add_action('wp_ajax_et_get_settings', array($this, 'et_get_settings'));
-        add_action('wp_ajax_et_get_pages', array($this, 'et_get_pages'));
-        add_action('wp_ajax_et_get_main_page', array($this, 'et_get_main_page'));
-        add_action('wp_ajax_et_set_main_page', array($this, 'et_set_main_page'));
+        add_action('wp_ajax_et_save_settings', array($this, 'et_save_settings'));
         add_filter( 'page_template', array($this, 'et_override_page') );
     }
 
-    public function et_add_save_step_settings()
-    {
-        if (isset($_POST['stepsSettings']) && $_POST['stepsSettings'] !== 'false') {
-            if (update_option(self::OPTION_STEPS, $_POST['stepsSettings']) or add_option(self::OPTION_STEPS, $_POST['stepsSettings'])) {
-                echo json_encode(array('success' => true));
-            } else {
-                echo json_encode(array('success' => false));
-            }
-        } else {
-            delete_option(self::OPTION_STEPS);
-        }
-        die;
-    }
+//    public function et_override_page($template)
+//    {
+//        global $post;
+//        if ($post->post_type == 'page' && $post->ID == get_option(self::OPTION_MAIN_PAGE)) {
+//            return plugin_dir_path( __FILE__ ) . 'templates/et-main-page.php';
+//        }
+//    }
 
-    public function et_override_page($template)
+    public function et_save_settings()
     {
-        global $post;
-        if ($post->post_type == 'page' && $post->ID == get_option(self::OPTION_MAIN_PAGE)) {
-            return plugin_dir_path( __FILE__ ) . 'templates/et-page.php';
-        }
-    }
-
-    public function et_set_main_page()
-    {
-        if (isset($_POST['pageSettings'])) {
-            if (update_option(self::OPTION_MAIN_PAGE, $_POST['pageSettings']) or add_option(self::OPTION_MAIN_PAGE, $_POST['pageSettings'])) {
+        if (isset($_POST['et-settings'])) {
+            if (update_option(self::OPTION_SETTINGS, $_POST['et-settings']) or add_option(self::OPTION_SETTINGS, $_POST['et-settings'])) {
                 echo json_encode(array('success' => true));
             } else {
                 echo json_encode(array('success' => false));
@@ -61,21 +43,10 @@ class EasyTech {
 
     public function et_get_settings()
     {
-        echo json_encode(get_option(self::OPTION_STEPS));
-        die;
-    }
-
-    public function et_get_main_page()
-    {
-        delete_option(self::OPTION_MAIN_PAGE);
-//        $T = get_option(self::OPTION_MAIN_PAGE);
-        echo json_encode(get_option(self::OPTION_MAIN_PAGE));
-        die;
-    }
-
-    public function et_get_pages()
-    {
-        echo json_encode(get_pages());
+        echo json_encode(array(
+            'pages'     => get_pages() ,
+            'settings'  => get_option(self::OPTION_SETTINGS)
+        ));
         die;
     }
 
@@ -89,8 +60,10 @@ class EasyTech {
         wp_enqueue_script ('angular.sanitize', 'https://code.angularjs.org/1.4.5/angular-sanitize.min.js', array('angular.aminate'));
         wp_enqueue_script ('angular.bootstrap', 'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap.min.js', array('angular.sanitize'));
         wp_enqueue_script ('angular.tpls', 'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap-tpls.min.js', array('angular.bootstrap'));
-        wp_enqueue_script ('script.admin', plugins_url('/js/admin.js', __FILE__), array('angular.tpls'), false, true);
-        wp_localize_script('script.admin', 'ajaxUrl', admin_url('admin-ajax.php'));
+        wp_enqueue_script ('admin.module', plugins_url('/js/admin/module.js', __FILE__), array('angular.tpls'), false, true);
+        wp_enqueue_script ('admin.service', plugins_url('/js/admin/service.js', __FILE__), array('admin.module'), false, true);
+        wp_enqueue_script ('admin.controller', plugins_url('/js/admin/controller.js', __FILE__), array('admin.service'), false, true);
+        wp_localize_script('admin.controller', 'ajaxUrl', admin_url('admin-ajax.php'));
     }
 
     public function et_bootstrap_init()
@@ -133,7 +106,7 @@ class EasyTech {
 
     public function et_setting_callback()
     {
-        require_once ('templates/settings.php');
+        require_once ('templates/et-settings.php');
     }
 
 }
