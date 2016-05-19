@@ -1,18 +1,22 @@
 <button ng-click="addStep()" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Step</button>
 <div class="et-step" ng-repeat="step in data.settings.steps">
-    <h3>STEP {{$index + 1}}: {{step.description}}</h3>
+    <h3>STEP {{$index + 1}}: {{ step.description }}</h3>
     <div class="col-xs-4 no-padding" ng-switch="step.type">
         <div ng-switch-when="text">
             <input readonly="readonly" type="text" name="{{step.name}}" placeholder="{{step.title}}" class="form-control" />
         </div>
         <div ng-switch-when="radio">
-            <input readonly="readonly" checked type="radio" name="{{step.name}}" /> {{step.title}}
+            <input readonly="readonly" checked type="radio" name="{{step.name}}" /> {{ step.title }}
         </div>
         <div ng-switch-when="checkbox">
-            <input readonly="readonly" checked type="checkbox" name="{{step.name}}" /> {{step.title}}
+            <input readonly="readonly" checked type="checkbox" name="{{step.name}}" />  {{ step.title }}
         </div>
         <div ng-switch-when="textarea">
             <textarea name="{{step.name}}" readonly="readonly" placeholder="{{step.title}}" class="form-control"></textarea>
+        </div>
+
+        <div ng-switch-when="custom">
+            <div ng-bind-html="step.html"></div>
         </div>
     </div>
     <div class="col-xs-1">

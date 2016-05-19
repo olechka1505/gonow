@@ -44,53 +44,21 @@
   width: 100%;
   clear: both;
 }
-.et_has_error, .et-remove-btn {
-  border-color: #ff0000;
-  color: #ff0000;
-}
 .no-padding {
   padding:0 !important;
 }
-#wpcontent {
-  padding-right: 20px;
-  padding-left: 20px;
-}
-[type="checkbox"], label {
-  margin: 0 !important;
-}
-.et_admin_settings {
-  padding: 50px 0;
-  .nav-tabs {
-    width: 20%;
-    float: left;
-    > li {
-      float: none;
-      &.active{
-        a{
-          border-right: none;
-        }
-      }
-      a {
-        border: solid 1px #ccc;
-        @include border-radius(0);
-        margin-right: -1px;
-        z-index: 2;
-        position: relative;
+.mainForm {
+  .form-row {
+    margin-bottom: 20px;
+    .description{
+      font-size: 20px;
+      margin-bottom: 7px;
+      .bold {
+        font-weight: 700;
       }
     }
-  }
-  .tab-content{
-    float: left;
-    width: 80%;
-    border: solid 1px #ccc;
-    height: 400px;
-    padding: 15px;
-    overflow-y: auto;
-  }
-  .et-separate{
-    width: 100%;
-    height: 25px;
-    float: left;
-    clear: both
+    .et_mt20 {
+      margin-top: 20px;
+    }
   }
 }

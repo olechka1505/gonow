@@ -10,6 +10,7 @@
                 <option value="radio">Radio</option>
                 <option value="checkbox">Checkbox</option>
                 <option value="textarea">Textarea</option>
+                <option value="custom">Custom HTML</option>
             </select>
         </div>
         <div class="et-form-separate"></div>
@@ -23,6 +24,14 @@
         <div class="et-form-separate"></div>
         <div class="col-xs-12">
             <textarea placeholder="Description" required name="description" ng-model="stepData.description" class="form-control" ng-class="{'et_has_error': AddStep.description.$dirty && AddStep.description.$invalid}"></textarea>
+        </div>
+        <div class="et-form-separate"></div>
+        <div class="col-xs-12">
+            <label><input type="checkbox" name="is_required" ng-model="stepData.is_required" ng-class="{'et_has_error': AddStep.is_required.$dirty && AddStep.is_required.$invalid}"/> Is Required</label>
+        </div>
+        <div class="et-form-separate"></div>
+        <div ng-if="stepData.type == 'custom'" class="col-xs-12">
+            <textarea placeholder="Custom HTML" name="description" ng-model="stepData.html" class="form-control"></textarea>
         </div>
         <div class="et-form-separate"></div>
     </div>

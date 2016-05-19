@@ -3,13 +3,16 @@ angular.module('etApp')
         $scope.data = {
             settings: {
                 steps: [],
+                overriddenPage: {
+                    ID: "0",
+                },
             },
             pages: [],
         };
         $scope.alerts = [];
 
         $scope.getFetchSettings = function(){
-            ajaxHelper.request('et_get_settings', {}).then(function(response){
+            ajaxHelper.request('et_fetch_settings', {}).then(function(response){
                 if (response.status == 200) {
                     $scope.data.settings = angular.extend($scope.data.settings, response.data.settings);
                     $scope.data.pages = angular.extend($scope.data.pages, response.data.pages);
@@ -33,20 +36,6 @@ angular.module('etApp')
 
         $scope.getFetchSettings();
 
-        //$scope.saveTemplate = function(){
-        //    ajaxHelper.request('et_set_main_page', {'pageSettings': $scope.pageTemplate}).then(function(response){
-        //        if (response.status == 200) {
-        //            $scope.alerts.push({
-        //                type: "success",
-        //                msg: "Saved",
-        //            })
-        //            $timeout(function(){
-        //                $scope.alerts.splice($scope.alerts.length - 1, 1);
-        //            }, 1500);
-        //        }
-        //    })
-        //};
-        //
         $scope.addStep = function(){
             var modalInstance = $uibModal.open({
                 animation:      true,

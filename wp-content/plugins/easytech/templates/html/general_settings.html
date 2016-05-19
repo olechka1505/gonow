@@ -1,13 +1,10 @@
-<div class="col-xs-12">
-    <div class="col-xs-3">
-        <label>Page</label>
+<div class="col-xs-12 no-padding">
+    <div class="col-xs-2 no-padding">
+        <label>Overridden Page</label>
     </div>
-    <div class="col-xs-9">
+    <div class="col-xs-5 no-padding">
         <div>
-            <select ng-model="pageTemplate" class="form-control">
-                <option value="">Select page</option>
-                <option ng-if="pages.length" ng-repeat="page in pages" value="{{page.ID}}">{{page.post_title}}</option>
-            </select>
+            <select ng-model="data.settings.overriddenPage.ID" class="form-control" ng-options="page.ID.toString() as page.post_title for page in data.pages"></select>
         </div>
         <div></div>
     </div>

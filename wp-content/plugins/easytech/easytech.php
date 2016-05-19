@@ -16,18 +16,45 @@ class EasyTech {
         add_action('init', array($this, 'et_bootstrap_init'));
         add_action('admin_enqueue_scripts', array($this, 'et_admin_enqueue_scripts'));
         add_action('admin_menu', array($this, 'et_add_submenus'));
-        add_action('wp_ajax_et_get_settings', array($this, 'et_get_settings'));
+        add_action('wp_ajax_et_fetch_settings', array($this, 'et_fetch_settings'));
         add_action('wp_ajax_et_save_settings', array($this, 'et_save_settings'));
-        add_filter( 'page_template', array($this, 'et_override_page') );
+        add_action('wp_ajax_et_create_connect', array($this, 'et_create_connect'));
+        add_action('wp_ajax_no_priv_et_create_connect', array($this, 'et_create_connect'));
+        add_filter('page_template', array($this, 'et_override_page'));
     }
 
-//    public function et_override_page($template)
-//    {
-//        global $post;
-//        if ($post->post_type == 'page' && $post->ID == get_option(self::OPTION_MAIN_PAGE)) {
-//            return plugin_dir_path( __FILE__ ) . 'templates/et-main-page.php';
-//        }
-//    }
+    private function et_get_settings()
+    {
+        return get_option(self::OPTION_SETTINGS);
+    }
+
+    public function et_create_connect()
+    {
+        if($data = isset($_POST['requestData']) ? $_POST['requestData'] : false) {
+            $post_id = wp_insert_post(array(
+                'post_type'     => 'et_ticket',
+                'post_status'   => 'publish',
+                'post_title'    => implode('-', $_POST['requestData']),
+            ));
+            foreach($data as $key => $value) {
+                $status = update_post_meta($post_id, $key, $value) or add_post_meta($post_id, $key, $value, true);
+                if (!$status) {
+                    echo json_encode(array('success' => false)); die;
+                }
+            }
+            echo json_encode(array('success' => true));
+        }
+        die;
+    }
+
+    public function et_override_page()
+    {
+        global $post;
+        $settings = $this->et_get_settings();
+        if ($post->post_type == 'page' && $post->ID == $settings['overriddenPage']['ID']) {
+            return plugin_dir_path( __FILE__ ) . 'templates/et-main-page.php';
+        }
+    }
 
     public function et_save_settings()
     {
@@ -41,11 +68,12 @@ class EasyTech {
         die;
     }
 
-    public function et_get_settings()
+    public function et_fetch_settings()
     {
+//        delete_option(self::OPTION_SETTINGS);
         echo json_encode(array(
             'pages'     => get_pages() ,
-            'settings'  => get_option(self::OPTION_SETTINGS)
+            'settings'  => $this->et_get_settings()
         ));
         die;
     }
@@ -95,7 +123,7 @@ class EasyTech {
             'has_archive' => true,
             'hierarchical' => false,
             'menu_position' => null,
-            'supports' => array('title', 'excerpt')
+            'supports' => array('title', 'custom-fields')
         ));
     }
 
