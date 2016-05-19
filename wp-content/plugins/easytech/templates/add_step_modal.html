@@ -1,0 +1,35 @@
+<form novalidate method="post" name="AddStep" ng-submit="addStep()">
+    <div class="modal-header">
+        <h3 class="modal-title">Add Step</h3>
+    </div>
+    <div class="modal-body">
+        <div class="col-xs-12">
+            <select required name="type" ng-model="stepData.type" class="form-control" ng-class="{'et_has_error': AddStep.type.$dirty && AddStep.type.$invalid}">
+                <option value="">Select Type</option>
+                <option value="text">Text</option>
+                <option value="radio">Radio</option>
+                <option value="checkbox">Checkbox</option>
+                <option value="textarea">Textarea</option>
+            </select>
+        </div>
+        <div class="et-form-separate"></div>
+        <div class="col-xs-12">
+            <input placeholder="Title" type="text" required name="title" ng-model="stepData.title" class="form-control" ng-class="{'et_has_error': AddStep.title.$dirty && AddStep.title.$invalid}"/>
+        </div>
+        <div class="et-form-separate"></div>
+        <div class="col-xs-12">
+            <input placeholder="Name" type="text" required name="name" ng-model="stepData.name" class="form-control" ng-class="{'et_has_error': AddStep.name.$dirty && AddStep.name.$invalid}"/>
+        </div>
+        <div class="et-form-separate"></div>
+        <div class="col-xs-12">
+            <textarea placeholder="Description" required name="description" ng-model="stepData.description" class="form-control" ng-class="{'et_has_error': AddStep.description.$dirty && AddStep.description.$invalid}"></textarea>
+        </div>
+        <div class="et-form-separate"></div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="modal-footer">
+        <button ng-disabled="AddStep.$invalid" class="btn btn-primary" type="submit">Add Step</button>
+    </div>
+</form>

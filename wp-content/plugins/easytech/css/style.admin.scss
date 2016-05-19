@@ -1,0 +1,62 @@
+/*Colors*/
+
+/*Mixins*/
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin animation($animation, $delay, $type) {
+  -webkit-transition: $animation $delay $type;
+  -moz-transition: $animation $delay $type;
+  -o-transition: $animation $delay $type;
+  transition: $animation $delay $type;
+}
+
+
+@mixin media($media) {
+  @if $media == xs {
+    @media (max-width: 767px) {
+      @content;
+    }
+  } @else if $media == sm {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $media == md {
+    @media (min-width: 992px) {
+      @content;
+    }
+  } @else if $media == lg {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  }
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+.et-form-separate{
+  height: 15px;
+  float: left;
+  width: 100%;
+  clear: both;
+}
+.et_has_error, .et-remove-btn {
+  border-color: #ff0000;
+  color: #ff0000;
+}
+.no-padding {
+  padding:0 !important;
+}
+.et_admin_settings {
+  padding: 50px 0;
+  .tab-content{
+    padding-top: 20px;
+    .et-step {
+
+    }
+  }
+}
